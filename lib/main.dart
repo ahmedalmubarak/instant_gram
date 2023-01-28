@@ -64,7 +64,9 @@ class MainView extends ConsumerWidget {
         ],
       ),
       body: Column(
-        children: const [Text('Welcome')],
+        children: const [
+          Text('Welcome'),
+        ],
       ),
     );
   }
