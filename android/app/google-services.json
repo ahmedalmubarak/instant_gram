@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "450534550875-a0euq9ic9ddnt2d2pn5s7nqbirmgb3h1.apps.googleusercontent.com",
+          "client_id": "450534550875-39b06re5jmg81qfoaufi831gtgh6g6s1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmedalmubarak.instagram_clone",
+            "certificate_hash": "e3136c6d6ff7ee8ff1eb99f638dbc1dfb619ccf8"
+          }
+        },
+        {
+          "client_id": "450534550875-8s3kec74sn4ihb8ifkdc2qia4l2sretc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "450534550875-a0euq9ic9ddnt2d2pn5s7nqbirmgb3h1.apps.googleusercontent.com",
+              "client_id": "450534550875-8s3kec74sn4ihb8ifkdc2qia4l2sretc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "450534550875-ht7ej3t9r4jh7i807isbc20urct7t7d3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ahmedalmubarak.instagramClone"
+              }
             }
           ]
         }
