@@ -1,23 +1,25 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/views/components/constants/strings.dart';
-import 'package:instagram_clone/views/components/loading/loading_screen_controller.dart';
+
+import '../constants/strings.dart';
+import 'loading_screen_controller.dart';
 
 class LoadingScreen {
   LoadingScreen._sharedInstance();
   static final LoadingScreen _shared = LoadingScreen._sharedInstance();
   factory LoadingScreen.instance() => _shared;
 
-  LoadingScreenController? _controller;
+  LoadingScreenController? controller;
+
   void show({
     required BuildContext context,
     String text = Strings.loading,
   }) {
-    if (_controller?.update(text) ?? false) {
+    if (controller?.update(text) ?? false) {
       return;
     } else {
-      _controller = showOverlay(
+      controller = showOverlay(
         context: context,
         text: text,
       );
@@ -25,20 +27,24 @@ class LoadingScreen {
   }
 
   void hide() {
-    _controller?.close();
-    _controller = null;
+    controller?.close();
+    controller = null;
   }
 
   LoadingScreenController? showOverlay({
     required BuildContext context,
     required String text,
   }) {
-    final state = Overlay.of(context);
-    if (state == null) return null;
     final textController = StreamController<String>();
     textController.add(text);
+
+    final state = Overlay.of(context);
+    if (state == null) {
+      return null;
+    }
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
+
     final overlay = OverlayEntry(
       builder: (context) {
         return Material(
@@ -52,47 +58,47 @@ class LoadingScreen {
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.0),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const CircularProgressIndicator(
-                      color: Colors.deepPurple,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    StreamBuilder<String>(
-                      builder: (context, snapshot) => snapshot.hasData
-                          ? Text(
-                              snapshot.requireData,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 10),
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 20),
+                      StreamBuilder(
+                        stream: textController.stream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data as String,
+                              textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
-                                  ?.copyWith(
-                                    color: Colors.black,
-                                  ),
-                            )
-                          : const SizedBox(),
-                      stream: textController.stream,
-                    )
-                  ],
-                )),
+                                  ?.copyWith(color: Colors.black),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
         );
       },
     );
+
     state.insert(overlay);
+
     return LoadingScreenController(
       close: () {
         textController.close();

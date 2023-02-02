@@ -3,12 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone/state/auth/providers/is_logged_in_provider.dart';
+import 'package:instagram_clone/state/providers/is_loading_provider.dart';
+import 'package:instagram_clone/views/components/animations/empty_contents_with_text_animation_view.dart';
+import 'package:instagram_clone/views/components/loading/loading_screen.dart';
 import 'firebase_options.dart';
-import 'dart:developer' as devtools show log;
-
-extension Log on Object {
-  void log() => devtools.log(toString());
-}
+import 'views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +32,17 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       theme: ThemeData.dark(),
       home: Consumer(
-        builder: (context, ref, child) {
+        builder: (context, ref, _) {
+          ref.listen(
+            isLoadingProvider,
+            (_, isLoading) {
+              if (isLoading) {
+                LoadingScreen.instance().show(context: context);
+              } else {
+                LoadingScreen.instance().hide();
+              }
+            },
+          );
           final isLoggedIn = ref.watch(isLoggedInProvider);
           if (isLoggedIn) {
             return const MainView();
@@ -65,27 +74,8 @@ class MainView extends ConsumerWidget {
       ),
       body: Column(
         children: const [
-          Text('Welcome'),
-        ],
-      ),
-    );
-  }
-}
-
-class LoginView extends ConsumerWidget {
-  const LoginView({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Login View')),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: ref.read(authStateNotifier.notifier).loginWithGoogle,
-            child: const Text('Google Sign in'),
+          EmptyContentsWithTextAnimationView(
+            text: 'Hi',
           ),
         ],
       ),

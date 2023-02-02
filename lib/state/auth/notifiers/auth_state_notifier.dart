@@ -38,7 +38,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     state = AuthState(
       result: result,
       isLoading: false,
-      userId: userId,
+      userId: _authenticator.userId,
     );
   }
 

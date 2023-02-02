@@ -39,6 +39,7 @@ class Authenticator {
       );
       return AuthResult.success;
     } catch (e) {
+      print('erroooooor$e');
       return AuthResult.failure;
     }
   }
