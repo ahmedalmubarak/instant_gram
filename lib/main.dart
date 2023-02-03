@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:instagram_clone/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone/state/auth/providers/is_logged_in_provider.dart';
 import 'package:instagram_clone/state/providers/is_loading_provider.dart';
-import 'package:instagram_clone/views/components/animations/empty_contents_with_text_animation_view.dart';
 import 'package:instagram_clone/views/components/loading/loading_screen.dart';
 import 'firebase_options.dart';
 import 'views/login/login_view.dart';
+import 'views/main/main_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,34 +49,6 @@ class MyApp extends StatelessWidget {
             return const LoginView();
           }
         },
-      ),
-    );
-  }
-}
-
-class MainView extends ConsumerWidget {
-  const MainView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main View'),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              await ref.read(authStateNotifier.notifier).logOut();
-            },
-            child: const Text('Logout'),
-          ),
-        ],
-      ),
-      body: Column(
-        children: const [
-          EmptyContentsWithTextAnimationView(
-            text: 'Hi',
-          ),
-        ],
       ),
     );
   }
