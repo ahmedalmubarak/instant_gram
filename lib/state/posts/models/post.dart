@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:instagram_clone/state/image_upload/models/file_type.dart';
 import 'package:instagram_clone/state/posts/models/post_keys.dart';
 
-import '../../image_upload/models/file_type.dart';
 import '../../posts_settings/models/post_setting.dart';
 
 @immutable
@@ -29,7 +29,7 @@ class Post {
         thumbnailUrl = json[PostKey.thumbnailUrl],
         fileUrl = json[PostKey.fileUrl],
         fileType = FileType.values.firstWhere(
-          (fileType) => fileType == json[PostKey.fileType],
+          (fileType) => fileType.name == json[PostKey.fileType],
           orElse: () => FileType.image,
         ),
         fileName = json[PostKey.fileName],
@@ -38,11 +38,11 @@ class Post {
         originalFileStorageId = json[PostKey.originalFileStorageId],
         postSettings = {
           for (final entry in json[PostKey.postSettings].entries)
-            PostSetting.values
-                    .firstWhere((element) => element.storageKey == entry.key):
-                entry.value
+            PostSetting.values.firstWhere(
+              (element) => element.storageKey == entry.key,
+            ): entry.value,
         };
 
-  bool get allowLikes => postSettings[PostSetting.allowLikes] ?? false;
-  bool get allowComments => postSettings[PostSetting.allowComments] ?? false;
+  bool get allowsLikes => postSettings[PostSetting.allowLikes] ?? false;
+  bool get allowsComments => postSettings[PostSetting.allowComments] ?? false;
 }

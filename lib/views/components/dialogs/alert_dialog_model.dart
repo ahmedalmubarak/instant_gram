@@ -5,7 +5,6 @@ class AlertDialogModel<T> {
   final String title;
   final String message;
   final Map<String, T> buttons;
-
   const AlertDialogModel({
     required this.title,
     required this.message,

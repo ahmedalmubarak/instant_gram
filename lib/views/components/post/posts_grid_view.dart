@@ -23,11 +23,10 @@ class PostsGridView extends StatelessWidget {
         final post = posts.elementAt(index);
         return PostThumbnailView(
           post: post,
-          onTap: () {
-            // TODO: navigate to post detaile
-          },
+          onTap: () {},
         );
       },
+      itemCount: posts.length,
     );
   }
 }
